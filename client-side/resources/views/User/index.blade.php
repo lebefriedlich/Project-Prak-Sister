@@ -170,21 +170,36 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        Apakah kamu yakin untuk daftar event <strong>{{ $data->nama_event }}
-                                                        </strong> ini
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <form action="{{ route('daftar-event') }}" method="POST">
+                                                    <form action="{{ route('daftar-event') }}" method="POST">
+                                                        <div class="modal-body">
                                                             @csrf
                                                             <input type="hidden" name="id_event"
                                                                 value="{{ $data->id_event }}">
+                                                            <div class="form-group">
+                                                                <label for="alasan_keikutsertaan"
+                                                                    class="text-dark mb-2">Alasan
+                                                                    Keikutsertaan</label>
+                                                                <textarea id="alasan_keikutsertaan" name="alasan_keikutsertaan" cols="30" rows="5" class="form-control"></textarea>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="kategori_peserta" class="text-dark mt-2 mb-2">Kategori
+                                                                    Peserta</label>
+                                                                <select class="form-control border border-primary"
+                                                                    id="kategori_peserta" name="kategori_peserta" required>
+                                                                    <option value="">Pilih Salah Satu Kategori</option>
+                                                                    <option value="Mahasiswa">Mahasiswa</option>
+                                                                    <option value="Dosen">Dosen</option>
+                                                                    <option value="Umum">Umum</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
                                                             <button type="submit" class="btn btn-primary">Daftar
                                                                 Sekarang!!</button>
-                                                        </form>
-                                                    </div>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,7 +224,8 @@
 
                 <!-- Optional: Additional explanation or instructions -->
                 <p class="text-muted mt-4 text-center">
-                    Klik tombol "Daftar Sekarang!!" untuk mendaftar ke acara yang kamu pilih. Pastikan kamu sudah login untuk
+                    Klik tombol "Daftar Sekarang!!" untuk mendaftar ke acara yang kamu pilih. Pastikan kamu sudah login
+                    untuk
                     bisa mendaftar acara.
                 </p>
             </div>

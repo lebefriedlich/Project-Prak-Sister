@@ -16,7 +16,7 @@ class EventController extends Controller
             $client = new Client();
 
             $apiUrl = config('app.api_url') . '/api/admin/event';
-            $response = $client->request('GET', $apiUrl,[
+            $response = $client->request('GET', $apiUrl, [
                 'headers' => [
                     'Authorization' => 'Bearer ' . Cookie::get('api_token'),
                 ]
@@ -31,6 +31,7 @@ class EventController extends Controller
                 ]
             ]);
 
+
             $body1 = json_decode($response1->getBody());
 
             if ($response->getStatusCode() == 200 && $response1->getStatusCode() == 200) {
@@ -38,10 +39,6 @@ class EventController extends Controller
                     'datas' => $body->data,
                     'lokasi' => $body1->data,
                 ]);
-            }
-
-            if ($response->getStatusCode() == 200) {
-                return view('Admin.event', ['datas' => $body->data]);
             }
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'An error occurred. Please try again.');
@@ -89,7 +86,7 @@ class EventController extends Controller
 
             if ($response->getStatusCode() == 201) {
                 return redirect()->back()->with('success', $body->message);
-            } else if($response->getStatusCode() == 200) {
+            } else if ($response->getStatusCode() == 200) {
                 return redirect()->back()->with('error', $body->message);
             }
         } catch (\Exception $e) {
@@ -194,7 +191,8 @@ class EventController extends Controller
         }
     }
 
-    public function deleteFeedback(Request $request){
+    public function deleteFeedback(Request $request)
+    {
         try {
             $client = new Client();
 

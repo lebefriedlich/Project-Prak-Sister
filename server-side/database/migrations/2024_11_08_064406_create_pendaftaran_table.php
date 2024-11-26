@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('id_event')->constrained('events')->references('id_event')->onDelete('cascade');
             $table->date('tanggal_daftar');
             $table->enum('status_kehadiran', ['Hadir', 'Tidak Hadir']);
+            $table->string('alasan_keikutsertaan');
+            $table->enum('kategori_peserta', ['Mahasiswa', 'Dosen', 'Umum']);
             $table->timestamps();
         });
     }

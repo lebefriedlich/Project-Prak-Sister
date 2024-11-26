@@ -1,5 +1,5 @@
 @extends('Admin.partials.master')
-@section('title', 'Lokasi Event')
+@section('title', 'Event')
 @section('css')
     <style>
         th,
@@ -97,12 +97,12 @@
                                                     </button>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-success" data-toggle="modal"
+                                                    <button class="btn btn-success mb-2" data-toggle="modal"
                                                         style="margin-right: 20px"
                                                         data-target="#EditModal{{ $data->id_event }}"><i
                                                             class="bi bi-pencil-square"></i>
                                                         Edit</button>
-                                                    <button class="btn btn-danger" data-toggle="modal"
+                                                    <button class="btn btn-danger mb-2" data-toggle="modal"
                                                         data-target="#HapusModal{{ $data->id_event }}"><i
                                                             class="bi bi-trash3"></i>
                                                         Hapus</button>
@@ -258,6 +258,8 @@
                                             <th scope="col" class="text-center">Nama Peserta</th>
                                             <th scope="col" class="text-center">Email</th>
                                             <th scope="col" class="text-center">No. Telepon</th>
+                                            <th scope="col" class="text-center">Alasan Keikutsertaan</th>
+                                            <th scope="col" class="text-center">Kategori Peserta</th>
                                             <th scope="col" class="text-center">Hadir?</th>
                                         </tr>
                                     </thead>
@@ -268,6 +270,8 @@
                                                 <td class="text-center">{{ $peserta->user->name }}</td>
                                                 <td class="text-center">{{ $peserta->user->email }}</td>
                                                 <td class="text-center">{{ $peserta->user->no_hp }}</td>
+                                                <td class="text-center">{{ $peserta->alasan_keikutsertaan }}</td>
+                                                <td class="text-center">{{ $peserta->kategori_peserta }}</td>
                                                 <td class="text-center">
                                                     <input type="hidden" name="id_event" value="{{ $data->id_event }}">
                                                     <input type="hidden" name="id_user[]"
@@ -310,7 +314,7 @@
                         </button>
                     </div>
                     <div class="modal-body" style="overflow-x: auto;">
-                        @if (empty($data->feedback) || count($data->feedback) == 0)
+                        @if (empty($data->pendaftaran) || count($data->pendaftaran) == 0)
                             <p class="text-center text-muted">Belum ada Feedback untuk acara ini.
                             </p>
                         @else
@@ -320,24 +324,34 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" class="text-center">No.</th>
+                                            <th scope="col" class="text-center">Tanggal Feedback</th>
                                             <th scope="col" class="text-center">Nama Peserta</th>
                                             <th scope="col" class="text-center">Rating</th>
                                             <th scope="col" class="text-center">Komentar</th>
+                                            <th scope="col" class="text-center">Jenis Feedback</th>
                                             <th scope="col" class="text-center">Hapus?</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($data->feedback as $feedback)
-                                            <tr>
-                                                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
-                                                <td class="text-center">{{ $feedback->user->name }}</td>
-                                                <td class="text-center">{{ $feedback->rating }}</td>
-                                                <td class="text-center">{{ $feedback->komentar }}</td>
-                                                <td class="text-center">
-                                                    <input type="checkbox"
-                                                        name="id_feedback[]" value={{ $feedback->id_feedback }}>
-                                                </td>
-                                            </tr>
+                                        @foreach ($data->pendaftaran as $pendaftaran)
+                                            @foreach ($pendaftaran->feedback as $feedback)
+                                                <tr>
+                                                    <th scope="row" class="text-center">
+                                                        {{ $loop->iteration }}
+                                                    </th>
+                                                    <td class="text-center">
+                                                        {{ \Carbon\Carbon::parse($feedback->tanggal_feedback)->translatedFormat('d F Y, H:i') }}
+                                                    </td>
+                                                    <td class="text-center">{{ $pendaftaran->user->name }}</td>
+                                                    <td class="text-center">{{ $feedback->rating }}</td>
+                                                    <td class="text-center">{{ $feedback->komentar }}</td>
+                                                    <td class="text-center">{{ $feedback->jenis_feedback }}</td>
+                                                    <td class="text-center">
+                                                        <input type="checkbox" name="id_feedback[]"
+                                                            value="{{ $feedback->id_feedback }}">
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
                                 </table>

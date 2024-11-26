@@ -45,7 +45,9 @@ class LandingPageController extends Controller
                 'form_params' => [
                     'id_user' => Cookie::get('user_id'),
                     'id_event' => $request->id_event,
-                    'tanggal_daftar' => $request->tanggal_daftar
+                    'tanggal_daftar' => $request->tanggal_daftar,
+                    'alasan_keikutsertaan' => $request->alasan_keikutsertaan,
+                    'kategori_peserta' => $request->kategori_peserta
                 ]
             ]);
 
@@ -72,14 +74,22 @@ class LandingPageController extends Controller
                     'Authorization' => 'Bearer ' . Cookie::get('api_token'),
                 ]
             ]);
-
+            
             $body = json_decode($response->getBody());
+            
+            $apiUrl = config('app.api_url') . '/api/user/pendaftaran/' . Cookie::get('user_id');
+            $response = $client->request('GET', $apiUrl, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . Cookie::get('api_token'),
+                ]
+            ]);
+            
 
             if ($response->getStatusCode() == 200) {
                 return view('User.listEvent', ['datas' => $body->data]);
             }
         } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred. Please try again.');
+            return redirect()->back()->with('error', 'An error occurred. Please try again.' );
         }
     }
 
@@ -93,10 +103,10 @@ class LandingPageController extends Controller
                 'Authorization' => 'Bearer ' . Cookie::get('api_token'),
             ],
             'form_params' => [
-                'id_user' => Cookie::get('user_id'),
-                'id_event' => $request->id_event,
+                'id_pendaftaran' => $request->id_pendaftaran,
                 'rating' => $request->rating,
-                'komentar' => $request->komentar
+                'komentar' => $request->komentar,
+                'jenis_feedback' => $request->jenis_feedback
             ]
         ]);
 

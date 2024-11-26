@@ -37,6 +37,9 @@
             </p>
         </div>
         <div class="ticket-list">
+            {{-- @php
+                dd($datas);
+            @endphp --}}
             @foreach ($datas as $data)
                 <div class="ticket-item card shadow-sm mb-4 p-3">
                     <div class="d-flex align-items-center">
@@ -49,34 +52,40 @@
                             </p>
                         </div>
                         <div class="text-end">
-                            @if ($data->status_kehadiran == 'Tidak Hadir')
-                                <button type="button" class="btn btn-warning" disabled>Belum Bisa Memberikan
-                                    Feedback</button>
-                            @elseif ($data->status_kehadiran == 'Hadir')
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#FormFeedback{{ $data->id_pendaftaran }}">
-                                    <i class="bi bi-chat-text"></i>
-                                    Beri Feedback
-                                </button>
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                    data-bs-target="#Feedback{{ $data->id_pendaftaran }}">
-                                    <i class="bi bi-eye"></i>
-                                    Lihat Feedback
-                                </button>
+                            <button type="button" class="btn btn-primary btn-sm me-3" data-bs-toggle="modal"
+                                data-bs-target="#FormFeedback{{ $data->id_pendaftaran }}">
+                                <i class="bi bi-chat-text"></i>
+                                Beri Feedback
+                            </button>
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#Feedback{{ $data->id_pendaftaran }}">
+                                <i class="bi bi-eye"></i>
+                                Lihat Feedback
+                            </button>
 
-                                <div class="modal fade" id="FormFeedback{{ $data->id_pendaftaran }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                    Feedback {{ $data->event->nama_event }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                            <div class="modal fade" id="FormFeedback{{ $data->id_pendaftaran }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                Feedback {{ $data->event->nama_event }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        @if ($data->status_kehadiran == 'Tidak Hadir')
+                                            <div class="modal-body">
+                                                Belum bisa memberikan feedback, karena anda tidak hadir di Event tersebut
                                             </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                        @elseif ($data->status_kehadiran == 'Hadir')
                                             <form action="{{ route('create-feedback') }}" method="POST">
                                                 @csrf
-                                                <input type="hidden" name="id_event" value="{{ $data->event->id_event }}">
+                                                <input type="hidden" name="id_pendaftaran"
+                                                    value="{{ $data->id_pendaftaran }}">
                                                 <div class="modal-body">
                                                     <label for="">Rating Acara
                                                         {{ $data->event->nama_event }}</label>
@@ -92,8 +101,15 @@
                                                         <input type="radio" name="rating" id="star1"
                                                             value="1"><label for="star1"></label>
                                                     </div>
-                                                    <label for="">Komentar</label>
-                                                    <textarea name="komentar" id="" cols="30" rows="10" class="form-control"></textarea>
+                                                    <label for="komentar">Komentar</label>
+                                                    <textarea name="komentar" id="komentar" cols="30" rows="5" class="form-control"></textarea>
+                                                    <label for="jenis_feedback" class="mt-2">Jenis Feedback</label>
+                                                    <select class="form-control border border-primary" id="jenis_feedback"
+                                                        name="jenis_feedback" required>
+                                                        <option value="">Pilih Salah Satu Jenis</option>
+                                                        <option value="Kritik">Kritik</option>
+                                                        <option value="Saran">Saran</option>
+                                                    </select>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
@@ -101,57 +117,59 @@
                                                     <button type="submit" class="btn btn-primary">Kirim</button>
                                                 </div>
                                             </form>
-                                        </div>
+                                        @endif
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="modal fade" id="Feedback{{ $data->id_pendaftaran }}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">
-                                                    Feedback {{ $data->event->nama_event }}</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                @if (empty($data->event->feedback) || count($data->event->feedback) == 0)
-                                                    <p class="text-center text-muted">Belum ada feedback untuk acara ini.
-                                                    </p>
-                                                @else
-                                                    @foreach ($data->event->feedback as $feedback)
-                                                        <div class="card feedback-card">
-                                                            <div class="card-body">
-                                                                <div class="feedback-header">
-                                                                    <!-- Menampilkan Nama Pengguna -->
-                                                                    <span
-                                                                        class="feedback-name">{{ $feedback->user->name }}</span>
-                                                                    <div class="feedback-rating">
-                                                                        <!-- Loop untuk menampilkan rating bintang -->
-                                                                        @for ($i = 1; $i <= 5; $i++)
-                                                                            <span class="star"
-                                                                                style="color: {{ $i <= $feedback->rating ? '#ffcc00' : '#ccc' }};">&#9733;</span>
-                                                                        @endfor
-                                                                    </div>
-                                                                </div>
-                                                                <div class="feedback-comment">
-                                                                    <p>{{ $feedback->komentar }}</p>
+                            <div class="modal fade" id="Feedback{{ $data->id_pendaftaran }}" tabindex="-1"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="exampleModalLabel">
+                                                Feedback {{ $data->event->nama_event }}</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            @if (empty($data->all_feedbacks) || count($data->all_feedbacks) == 0)
+                                                <p class="text-center text-muted">Belum ada feedback untuk acara ini.
+                                                </p>
+                                            @else
+                                                @foreach ($data->all_feedbacks as $feedback)
+                                                    <div class="card feedback-card">
+                                                        <div class="card-body">
+                                                            <div class="feedback-header">
+                                                                <span
+                                                                    class="feedback-name">{{ $feedback->pendaftaran->user->name }}</span>
+                                                                <div class="feedback-rating">
+                                                                    <!-- Loop untuk menampilkan rating bintang -->
+                                                                    @for ($i = 1; $i <= 5; $i++)
+                                                                        <span class="star"
+                                                                            style="color: {{ $i <= $feedback->rating ? '#ffcc00' : '#ccc' }};">&#9733;</span>
+                                                                    @endfor
                                                                 </div>
                                                             </div>
+                                                            <div class="feedback-type">
+                                                                <small class="text-muted">Jenis Feedback:
+                                                                    {{ $feedback->jenis_feedback }}</small>
+                                                            </div>
+                                                            <div class="feedback-comment">
+                                                                <p>{{ $feedback->komentar }}</p>
+                                                            </div>
                                                         </div>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Kirim</button>
-                                            </div>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -270,5 +288,10 @@
 
     .feedback-comment p {
         margin: 0;
+    }
+
+    .feedback-type {
+        margin-top: 5px;
+        font-style: italic;
     }
 </style>

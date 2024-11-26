@@ -12,10 +12,11 @@ class FeedbackModel extends Model
     protected $table = 'feedback';
     protected $primaryKey = 'id_feedback';
     protected $fillable = [
-        'id_user',
-        'id_event',
+        'id_pendaftaran',
         'komentar',
         'rating',
+        'tanggal_feedback',
+        'jenis_feedback'
     ];
 
     protected $hidden = [
@@ -23,13 +24,8 @@ class FeedbackModel extends Model
         'updated_at'
     ];
 
-    public function user()
+    public function pendaftaran()
     {
-        return $this->belongsTo(User::class, 'id_user', 'id_user');
-    }
-
-    public function event()
-    {
-        return $this->belongsTo(EventModel::class, 'id_event', 'id_event');
+        return $this->belongsTo(PendaftaranModel::class, 'id_pendaftaran', 'id_pendaftaran');
     }
 }

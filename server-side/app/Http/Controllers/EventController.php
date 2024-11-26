@@ -25,7 +25,7 @@ class EventController extends Controller
     public function showRegistFeedback(){
         $event = EventModel::with('lokasi')
             ->with('pendaftaran.user')
-            ->with('feedback.user')
+            ->with('pendaftaran.feedback')
             ->orderBy('tanggal_event', 'asc')
             ->get();
 

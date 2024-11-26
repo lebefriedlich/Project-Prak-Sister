@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('feedback', function (Blueprint $table) {
             $table->id('id_feedback');
+            $table->foreignId('id_pendaftaran')->constrained('pendaftaran')->references('id_pendaftaran')->onDelete('cascade');
             $table->text('komentar')->nullable();
             $table->integer('rating')->unsigned()->check(function ($column) {
                 $column->between(1, 5);
             });
-            $table->foreignId('id_user')->constrained('users')->references('id_user')->onDelete('cascade');
-            $table->foreignId('id_event')->constrained('events')->references('id_event')->onDelete('cascade');
+            $table->dateTime('tanggal_feedback');
+            $table->enum('jenis_feedback', ['Kritik', 'Saran']);
             $table->timestamps();
         });
     }

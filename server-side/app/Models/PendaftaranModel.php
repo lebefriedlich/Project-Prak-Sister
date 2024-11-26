@@ -15,7 +15,9 @@ class PendaftaranModel extends Model
         'id_event',
         'id_user',
         'tanggal_daftar',
-        'status_kehadiran'
+        'status_kehadiran',
+        'alasan_keikutsertaan',
+        'kategori_peserta'
     ];
 
     protected $hidden = [
@@ -31,5 +33,10 @@ class PendaftaranModel extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    public function feedback()
+    {
+        return $this->hasMany(FeedbackModel::class, 'id_pendaftaran', 'id_pendaftaran');
     }
 }

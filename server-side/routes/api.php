@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     Route::middleware('checkRole:User')->group(function () {
         Route::get('user/pendaftaran/{id_user}', [PendaftaranController::class, 'getPendaftaranByUserid']);
+        Route::get('user/pendaftaran/{id_event}', [FeedBackController::class, 'getFeedbackByEventid']);
         Route::post('user/pendaftaran', [PendaftaranController::class, 'daftarEvent']);
 
         Route::post('user/feedback', [FeedBackController::class, 'createFeedBack']);

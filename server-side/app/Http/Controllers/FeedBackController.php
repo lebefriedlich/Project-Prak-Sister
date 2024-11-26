@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FeedbackModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,10 +19,10 @@ class FeedBackController extends Controller
         ];
 
         $validator = Validator::make($request->all(), [
-            'id_user' => 'required|exists:users,id_user',
-            'id_event' => 'required|exists:events,id_event',
+            'id_pendaftaran' => 'required|exists:pendaftaran,id_pendaftaran',
             'rating' => 'required|in:1,2,3,4,5',
-            'komentar' => 'required'
+            'komentar' => 'required',
+            'jenis_feedback' => 'required',
         ], $messages);
 
         if ($validator->fails()) {
@@ -32,8 +33,7 @@ class FeedBackController extends Controller
             ], 400);
         }
 
-        $existingFeedback = FeedBackModel::where('id_user', $request->id_user)
-            ->where('id_event', $request->id_event)
+        $existingFeedback = FeedBackModel::where('id_pendaftaran', $request->id_pendaftaran)
             ->first();
 
         if ($existingFeedback) {
@@ -43,11 +43,16 @@ class FeedBackController extends Controller
             ], 201);
         }
 
+        $request->merge([
+            'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+        ]);
+
         $feedback = FeedBackModel::create([
-            'id_user' => $request->id_user,
-            'id_event' => $request->id_event,
+            'id_pendaftaran' => $request->id_pendaftaran,
             'rating' => $request->rating,
-            'komentar' => $request->komentar
+            'komentar' => $request->komentar,
+            'tanggal_feedback' => $request->tanggal_feedback,
+            'jenis_feedback' => $request->jenis_feedback
         ]);
 
         return response()->json([
@@ -56,7 +61,6 @@ class FeedBackController extends Controller
             'data' => $feedback
         ], 200);
     }
-
 
     public function deleteFeedBack(Request $request)
     {

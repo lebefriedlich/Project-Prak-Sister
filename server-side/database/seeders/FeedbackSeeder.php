@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\FeedbackModel;
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,22 +16,25 @@ class FeedbackSeeder extends Seeder
     {
         $feedback = [
             [
+                'id_pendaftaran' => 1,
                 'rating' => 5,
                 'komentar' => 'Mantap',
-                'id_user' => 2,
-                'id_event' => 1
+                'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                'jenis_feedback' => 'Saran'
             ],
             [
+                'id_pendaftaran' => 2,
                 'rating' => 4,
                 'komentar' => 'Bagus',
-                'id_user' => 3,
-                'id_event' => 1
+                'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                'jenis_feedback' => 'Saran'
             ],
             [
+                'id_pendaftaran' => 3,
                 'rating' => 3,
                 'komentar' => 'Lumayan',
-                'id_user' => 4,
-                'id_event' => 1
+                'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
+                'jenis_feedback' => 'Saran'
             ],
         ];
 

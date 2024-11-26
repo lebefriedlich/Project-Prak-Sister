@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FeedbackModel;
 use App\Models\PendaftaranModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -62,14 +63,22 @@ class PendaftaranController extends Controller
     // method User
     public function getPendaftaranByUserid($id_user)
     {
-        $peserta = PendaftaranModel::where('id_user', $id_user)
-            ->with('event.feedback.user')
+        $pendaftaran = PendaftaranModel::where('id_user', $id_user)
+            ->with('event')
+            ->with('feedback')
+            ->with('user')
             ->get();
+
+        foreach ($pendaftaran as $item) {
+            $item->all_feedbacks = FeedbackModel::with(['pendaftaran.user'])->whereHas('pendaftaran', function ($query) use ($item) {
+                $query->where('id_event', $item->id_event);
+            })->get();
+        }
 
         return response()->json([
             'status_code' => 200,
             'message' => 'Data peserta berhasil diambil',
-            'data' => $peserta
+            'data' => $pendaftaran
         ], 200);
     }
 
@@ -79,12 +88,15 @@ class PendaftaranController extends Controller
             'required' => ':attribute harus diisi',
             'exists' => ':attribute tidak ditemukan',
             'date' => ':attribute harus berupa tanggal',
+            'in' => ':attribute harus salah satu dari: :values',
         ];
 
         $validator = Validator::make($request->all(), [
             'id_event' => 'required|exists:events,id_event',
             'id_user' => 'required|exists:users,id_user',
             'tanggal_daftar' => 'required|date',
+            'alasan_keikutsertaan' => 'required',
+            'kategori_peserta' => 'required|in:Mahasiswa,Dosen,Umum'
         ], $messages);
 
         if ($validator->fails()) {
@@ -95,7 +107,6 @@ class PendaftaranController extends Controller
             ], 400);
         }
 
-        // Mengecek apakah user sudah terdaftar di event yang sama
         $existingRegistration = PendaftaranModel::where('id_event', $request->id_event)
             ->where('id_user', $request->id_user)
             ->first();
