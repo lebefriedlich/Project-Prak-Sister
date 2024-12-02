@@ -16,10 +16,10 @@ class RedirectIfAdmin
      */
     public function handle($request, Closure $next)
     {
-        if (Cookie::has('api_token') && Cookie::has('user_id') && Cookie::get('user_role') === 'Admin') {
-            return $next($request);
+        if (!Cookie::has('api_token') && !Cookie::has('user_id') && Cookie::get('user_role') !== 'Admin') {
+            return redirect()->route('login');
         }
         
-        return redirect()->route('admin.dashboard');
+        return $next($request);
     }
 }

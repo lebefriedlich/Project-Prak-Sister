@@ -70,7 +70,7 @@ class PendaftaranController extends Controller
             ->get();
 
         foreach ($pendaftaran as $item) {
-            $item->all_feedbacks = FeedbackModel::with(['pendaftaran.user'])->whereHas('pendaftaran', function ($query) use ($item) {
+            $item->all_feedbacks = FeedbackModel:: with(['pendaftaran.user'])->whereHas('pendaftaran', function ($query) use ($item) {
                 $query->where('id_event', $item->id_event);
             })->get();
         }
