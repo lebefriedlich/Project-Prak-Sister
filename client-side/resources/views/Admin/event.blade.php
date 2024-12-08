@@ -175,7 +175,7 @@
                                                                             class="form-control border border-primary"
                                                                             id="tanggal_event" name="tanggal_event"
                                                                             value="{{ $data->tanggal_event }}"
-                                                                            min="{{ date('Y-m-d') }}" required>
+                                                                            required>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label for="id_lokasi"

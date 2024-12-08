@@ -24,14 +24,14 @@ class FeedbackSeeder extends Seeder
             ],
             [
                 'id_pendaftaran' => 2,
-                'rating' => 4,
+                'rating' => 5,
                 'komentar' => 'Acara sangat inspiratif, terima kasih panitia!',
                 'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
                 'jenis_feedback' => 'Saran'
             ],
             [
                 'id_pendaftaran' => 3,
-                'rating' => 3,
+                'rating' => 5,
                 'komentar' => 'Bagus, mungkin tambah demo langsung akan lebih seru.',
                 'tanggal_feedback' => Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d H:i:s'),
                 'jenis_feedback' => 'Saran'

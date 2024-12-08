@@ -27,8 +27,8 @@
         <div class="nav-header">
             <a href="{{ route('dashboard') }}" class="brand-logo">
                 <img class="logo-abbr" src="{{ asset('images/logo.png') }}" alt="">
-                <img class="logo-compact" src="{{ asset('images/logo-text.png') }}" alt="">
-                <img class="brand-title" src="{{ asset('images/logo-text.png') }}" alt="">
+                <p class="m-4 brand-title" style="font-size: 18px">UINMALANGEventHub</p>
+                <p class="m-4 logo-compact" style="font-size: 18px">UINMALANGEventHub</p>
             </a>
 
             <div class="nav-control">
@@ -52,7 +52,7 @@
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="{{ route('logout') }}" class="dropdown-item">
                                         <i class="bi bi-box-arrow-left"></i>
-                                        <span class="ml-2">Logout </span>
+                                        <span class="ml-2">Logout</span>
                                     </a>
                                 </div>
                             </li>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\EventModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,7 +13,8 @@ class EventController extends Controller
     {
         $event = EventModel::with('lokasi')
             ->orderBy('tanggal_event', 'asc')
-            ->take(6)
+            ->where('tanggal_event', '>=', Carbon::now()->setTimezone('Asia/Jakarta')->format('Y-m-d'))
+            ->where('status', 'Dibuka')
             ->get();
 
         return response()->json([

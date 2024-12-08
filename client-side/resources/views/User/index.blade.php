@@ -179,7 +179,7 @@
                                                                 <label for="alasan_keikutsertaan"
                                                                     class="text-dark mb-2">Alasan
                                                                     Keikutsertaan</label>
-                                                                <textarea id="alasan_keikutsertaan" name="alasan_keikutsertaan" cols="30" rows="5" class="form-control"></textarea>
+                                                                <textarea id="alasan_keikutsertaan" name="alasan_keikutsertaan" cols="30" rows="5" class="form-control" required></textarea>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="kategori_peserta" class="text-dark mt-2 mb-2">Kategori

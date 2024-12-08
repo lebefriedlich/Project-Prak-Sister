@@ -1,6 +1,9 @@
 <div class="footer">
     <div class="copyright">
-        <p>Copyright © Designed &amp; Developed by <a href="#" target="_blank">Quixkit</a> 2024</p>
+        <p>Copyright © Designed &amp; Developed by <a href="https://www.instagram.com/novalakbar38/">Maulana Haekal Noval
+                Akbar</a> &
+            <a href="https://www.instagram.com/paaar.han/">Farhan Dzaffa Arfianto</a> 2024
+        </p>
     </div>
 </div>
 </div>

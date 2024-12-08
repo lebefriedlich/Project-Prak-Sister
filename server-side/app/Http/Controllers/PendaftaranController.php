@@ -118,7 +118,6 @@ class PendaftaranController extends Controller
             ], 201);
         }
 
-        // Menambahkan status kehadiran dan menyimpan data pendaftaran
         $request->merge([
             'status_kehadiran' => 'Tidak Hadir'
         ]);

@@ -7,7 +7,8 @@
         </p>
         <div class="credits">
             Designed by
-            <a href="https://www.linkedin.com/in/maulana-haekal/">Maulana Haekal Noval Akbar</a>
+            <a href="https://www.instagram.com/novalakbar38/">Maulana Haekal Noval Akbar</a> &
+            <a href="https://www.instagram.com/paaar.han/">Farhan Dzaffa Arfianto</a>
         </div>
     </div>
 </footer>

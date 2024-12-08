@@ -52,14 +52,14 @@ class UserSeeder extends Seeder
             ],
             [
                 'name' => 'Farhan',
-                'email' => 'Farhan@gmail.com',
+                'email' => 'farhan@gmail.com',
                 'password' => Hash::make('123456'),
                 'no_hp' => '08123456785',
                 'role' => 'User',
             ],
             [
                 'name' => 'Dzaffa',
-                'email' => 'Dzaffa@gmail.com',
+                'email' => 'dzaffa@gmail.com',
                 'password' => Hash::make('123456'),
                 'no_hp' => '08123456786',
                 'role' => 'User',
